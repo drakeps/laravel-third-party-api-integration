@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\GitHub\Factories;
 
-use App\Services\GitHub\DataObjects\Owner;
-use JustSteveKing\LaravelToolkit\Contracts\FactoryContract;
+use App\Services\GitHub\DTO\Owner;
 
-class OwnerFactory implements FactoryContract
+class OwnerFactory
 {
     public static function make(array $attributes): Owner
     {

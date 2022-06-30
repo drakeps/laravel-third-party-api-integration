@@ -11,6 +11,11 @@ final class CreateRepository
         public readonly bool $private = false,
     ) {}
 
+    /**
+     * Сериализует объект запроса к API для дальнейшей его отправки
+     *
+     * @return array Массив с информацией, отправляемый в дальнейшем в API
+     */
     public function toRequest(): array
     {
         return [

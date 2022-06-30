@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\GitHub\Factories;
 
-use App\Services\GitHub\DataObjects\Release;
+use App\Services\GitHub\DTO\Release;
 use Carbon\Carbon;
-use JustSteveKing\LaravelToolkit\Contracts\FactoryContract;
 
-class ReleaseFactory implements FactoryContract
+class ReleaseFactory
 {
     public static function make(array $attributes): Release
     {

@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\GitHub\DataObjects;
+namespace App\Services\GitHub\DTO;
 
 use Carbon\Carbon;
-use JustSteveKing\LaravelToolkit\Contracts\DataObjectContract;
 
-class Release implements DataObjectContract
+class Release
 {
     public function __construct(
         public readonly int $id,

@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\GitHub\DataObjects;
+namespace App\Services\GitHub\DTO;
 
-use JustSteveKing\LaravelToolkit\Contracts\DataObjectContract;
-
-class Owner implements DataObjectContract
+class Owner
 {
     public function __construct(
         public readonly int $id,

@@ -4,25 +4,28 @@ declare(strict_types=1);
 
 namespace App\Services\GitHub\Resources;
 
+use App\Services\GitHub\DTO\Release;
 use App\Services\GitHub\Exceptions\GitHubRequestException;
 use App\Services\GitHub\Factories\ReleaseFactory;
+use App\Services\GitHub\GitHubService;
 use Illuminate\Support\Collection;
-use JustSteveKing\LaravelToolkit\Contracts\ResourceContract;
-use JustSteveKing\LaravelToolkit\Contracts\ServiceContract;
-use JustSteveKing\LaravelToolkit\Contracts\DataObjectContract;
 
-class ReleaseResource implements ResourceContract
+class ReleaseResource
 {
     public function __construct(
-        private readonly ServiceContract $service,
+        private readonly GitHubService $service,
     ) {}
 
-    public function service(): ServiceContract
+    public function service(): GitHubService
     {
         return $this->service;
     }
 
-    public function list(string $owner, string $repo): Collection
+    /**
+     * @return Collection[Release]
+     * @throws GitHubRequestException
+     */
+    public function list(string $owner, string $repo): Release
     {
         $request = $this->service->makeRequest();
 
@@ -41,7 +44,11 @@ class ReleaseResource implements ResourceContract
         ));
     }
 
-    public function latest(string $owner, string $repo): DataObjectContract
+    /**
+     * @return Release
+     * @throws GitHubRequestException
+     */
+    public function latest(string $owner, string $repo): Release
     {
         $request = $this->service->makeRequest();
 
@@ -60,7 +67,11 @@ class ReleaseResource implements ResourceContract
         );
     }
 
-    public function version(string $owner, string $repo, string $version): DataObjectContract
+    /**
+     * @return Release
+     * @throws GitHubRequestException
+     */
+    public function version(string $owner, string $repo, string $version): Release
     {
         $request = $this->service->makeRequest();
 

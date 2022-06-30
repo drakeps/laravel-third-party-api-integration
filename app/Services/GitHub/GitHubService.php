@@ -9,10 +9,8 @@ use App\Services\GitHub\Resources\ReleaseResource;
 use App\Services\GitHub\Resources\RepositoryResource;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use JustSteveKing\LaravelToolkit\Contracts\ResourceContract;
-use JustSteveKing\LaravelToolkit\Contracts\ServiceContract;
 
-class GitHubService implements ServiceContract
+class GitHubService
 {
     use CanBeFaked;
 
@@ -42,14 +40,14 @@ class GitHubService implements ServiceContract
         return $request;
     }
 
-    public function repositories(): ResourceContract
+    public function repositories(): RepositoryResource
     {
         return new RepositoryResource(
             service: $this,
         );
     }
 
-    public function releases(): ResourceContract
+    public function releases(): ReleaseResource
     {
         return new ReleaseResource(
             service: $this,

@@ -4,27 +4,28 @@ declare(strict_types=1);
 
 namespace App\Services\GitHub\Resources;
 
-use App\Services\GitHub\DataObjects\Repository;
+use App\Services\GitHub\DTO\Repository;
 use App\Services\GitHub\Exceptions\GitHubRequestException;
-use App\Services\GitHub\Factories\OwnerFactory;
 use App\Services\GitHub\Factories\RepositoryFactory;
+use App\Services\GitHub\GitHubService;
 use App\Services\GitHub\Requests\CreateRepository;
 use Illuminate\Support\Collection;
-use JustSteveKing\LaravelToolkit\Contracts\ResourceContract;
-use JustSteveKing\LaravelToolkit\Contracts\ServiceContract;
-use JustSteveKing\LaravelToolkit\Contracts\DataObjectContract;
 
-class RepositoryResource implements ResourceContract
+class RepositoryResource
 {
     public function __construct(
-        private readonly ServiceContract $service,
+        private readonly GitHubService $service,
     ) {}
 
-    public function service(): ServiceContract
+    public function service(): GitHubService
     {
         return $this->service;
     }
 
+    /**
+     * @return Collection[Repository]
+     * @throws GitHubRequestException
+     */
     public function organisation(string $organisation): Collection
     {
         $request = $this->service->makeRequest();
@@ -44,7 +45,11 @@ class RepositoryResource implements ResourceContract
         ));
     }
 
-    public function user(string $owner, string $repository): DataObjectContract
+    /**
+     * @return Repository
+     * @throws GitHubRequestException
+     */
+    public function user(string $owner, string $repository): Repository
     {
         $request = $this->service->makeRequest();
 
@@ -63,11 +68,12 @@ class RepositoryResource implements ResourceContract
         );
     }
 
-    public function create(
-        string $owner,
-        CreateRepository $requestBody,
-        bool $organisation = false,
-    ): DataObjectContract {
+    /**
+     * @return Repository
+     * @throws GitHubRequestException
+     */
+    public function create(string $owner,  CreateRepository $requestBody, bool $organisation = false, ): Repository
+    {
         $request = $this->service()->makeRequest();
 
         $response = $request->post(

@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\GitHub\DataObjects;
+namespace App\Services\GitHub\DTO;
 
 use Carbon\Carbon;
-use JustSteveKing\LaravelToolkit\Contracts\DataObjectContract;
 
-class Repository implements DataObjectContract
+class Repository
 {
     /**
      * @param int $id

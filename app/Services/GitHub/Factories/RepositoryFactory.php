@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\GitHub\Factories;
 
-use App\Services\GitHub\DataObjects\Repository;
+use App\Services\GitHub\DTO\Repository;
 use Carbon\Carbon;
-use JustSteveKing\LaravelToolkit\Contracts\FactoryContract;
 
-class RepositoryFactory implements FactoryContract
+class RepositoryFactory
 {
     public static function make(array $attributes): Repository
     {
