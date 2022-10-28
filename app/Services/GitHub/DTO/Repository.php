@@ -34,7 +34,29 @@ class Repository
     ) {}
 
     /**
-     * @return array
+     * Устанавливает значения свойств текущего объекта из массива
+     * @param array Ассоциативный массив
+     */
+    public static function fromArray($sourceArray): self
+    {
+        return new self(
+            id:           intval(data_get($sourceArray, 'id')),
+            name:         strval(data_get($sourceArray, 'full_name')),
+            language:     strval(data_get($sourceArray, 'language')),
+            private:      boolval(data_get($sourceArray, 'private')),
+            fork:         boolval(data_get($sourceArray, 'fork')),
+            archived:     boolval(data_get($sourceArray, 'archived')),
+            uri:          strval(data_get($sourceArray, 'html_url')),
+            organisation: Owner::fromArray((array) data_get($sourceArray, 'owner')),
+            created:      Carbon::parse(
+                time: strval(data_get($sourceArray, 'created_at')),
+            ),
+            description:  strval(data_get($sourceArray, 'description')),
+        );
+    }
+
+    /**
+     * Возвращает ассоциативный массив со свойствами текущего объекта
      */
     public function toArray(): array
     {

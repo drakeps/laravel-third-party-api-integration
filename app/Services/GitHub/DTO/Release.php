@@ -19,8 +19,33 @@ class Release
         public readonly Carbon $created,
     ) {}
 
+    /**
+     * Устанавливает значения свойств текущего объекта из массива
+     * @param array Ассоциативный массив
+     */
+    public static function fromArray($sourceArray): self
+    {
+        return new self(
+            id:          intval(data_get($sourceArray, 'id')),
+            name:        strval(data_get($sourceArray, 'name')),
+            tag:         strval(data_get($sourceArray, 'tag_name')),
+            url:         strval(data_get($sourceArray, 'html_url')),
+            description: strval(data_get($sourceArray, 'body')),
+            draft:       boolval(data_get($sourceArray, 'draft')),
+            author:      Owner::fromArray((array)data_get($sourceArray, 'author')),
+            created:     Carbon::parse(
+                time: strval(data_get($sourceArray, 'created_at')),
+            ),
+        );
+    }
+
+    /**
+     * Возвращает ассоциативный массив со свойствами текущего объекта
+     */
     public function toArray(): array
     {
-        return [];
+        return [
+            // ...
+        ];
     }
 }

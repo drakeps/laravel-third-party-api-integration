@@ -35,14 +35,10 @@ class RepositoryResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return $response->collect()->map(fn(array $repo) => RepositoryFactory::make(
-            attributes: $repo,
-        ));
+        return $response->collect()->map(fn(array $repo) => Repository::fromArray($repo));
     }
 
     /**
@@ -58,14 +54,10 @@ class RepositoryResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return RepositoryFactory::make(
-            attributes: $response->json(),
-        );
+        return Repository::fromArray($response->json());
     }
 
     /**
@@ -74,7 +66,7 @@ class RepositoryResource
      */
     public function create(string $owner,  CreateRepository $requestBody, bool $organisation = false, ): Repository
     {
-        $request = $this->service()->makeRequest();
+        $request = $this->service->makeRequest();
 
         $response = $request->post(
             url: $organisation ? "/orgs/{$owner}/repos" : "/user/repos",
@@ -82,13 +74,9 @@ class RepositoryResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return RepositoryFactory::make(
-            attributes: (array) $response->json(),
-        );
+        return Repository::fromArray($response->json());
     }
 }

@@ -6,7 +6,6 @@ namespace App\Services\GitHub\Resources;
 
 use App\Services\GitHub\DTO\Release;
 use App\Services\GitHub\Exceptions\GitHubRequestException;
-use App\Services\GitHub\Factories\ReleaseFactory;
 use App\Services\GitHub\GitHubService;
 use Illuminate\Support\Collection;
 
@@ -15,11 +14,6 @@ class ReleaseResource
     public function __construct(
         private readonly GitHubService $service,
     ) {}
-
-    public function service(): GitHubService
-    {
-        return $this->service;
-    }
 
     /**
      * @return Collection[Release]
@@ -34,14 +28,10 @@ class ReleaseResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return $response->collect()->map(fn(array $repo) => ReleaseFactory::make(
-            attributes: $repo,
-        ));
+        return $response->collect()->map(fn(array $repo) => Release::fromArray($repo));
     }
 
     /**
@@ -57,14 +47,10 @@ class ReleaseResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return ReleaseFactory::make(
-            attributes: $response->json(),
-        );
+        return Release::fromArray($response->json());
     }
 
     /**
@@ -80,13 +66,9 @@ class ReleaseResource
         );
 
         if ($response->failed()) {
-            throw new GitHubRequestException(
-                response: $response,
-            );
+            $this->service->handleError($response);
         }
 
-        return ReleaseFactory::make(
-            attributes: $response->json(),
-        );
+        return Release::fromArray($response->json());
     }
 }

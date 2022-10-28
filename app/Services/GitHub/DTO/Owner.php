@@ -14,6 +14,24 @@ class Owner
         public readonly string $uri,
     ) {}
 
+    /**
+     * Устанавливает значения свойств текущего объекта из массива
+     * @param array Ассоциативный массив
+     */
+    public static function fromArray($sourceArray): self
+    {
+        return new self(
+            id:     intval(data_get($sourceArray, 'id')),
+            login:  strval(data_get($sourceArray, 'login')),
+            type:   strval(data_get($sourceArray, 'type')),
+            avatar: strval(data_get($sourceArray, 'avatar_url')),
+            uri:    strval(data_get($sourceArray, 'html_url')),
+        );
+    }
+
+    /**
+     * Возвращает ассоциативный массив со свойствами текущего объекта
+     */
     public function toArray(): array
     {
         return [
